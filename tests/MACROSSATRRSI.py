@@ -10,7 +10,7 @@ class MACrossRSI_ATRFilter(bt.Strategy):
 
         # Volatility filter
         atr_period=14,
-        atr_min_pct=0.01,                   # require ATR >= 1% of price
+        atr_min_pct=0.02,                   # require ATR >= 1% of price
         atr_max_pct=None,                   # optional cap, e.g. 0.05 for <= 5%
 
         # Sizing
