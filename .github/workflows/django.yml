@@ -32,8 +32,11 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          # Ensure pytest is available even if not listed
+          pip install pytest
 
       - name: Run tests
+        shell: bash
         run: |
           if [ -f manage.py ]; then
             python manage.py test -v 2
