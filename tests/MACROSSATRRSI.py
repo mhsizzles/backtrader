@@ -78,7 +78,7 @@ if __name__ == '__main__':
     cerebro = bt.Cerebro()
 
     # --- Data ---
-    datapath = os.path.join(os.path.dirname(__file__), '../datas/orcl-2014.txt')
+    datapath = os.path.join(os.path.dirname(__file__), '../datas/yhoo-2014.txt')
     data = bt.feeds.BacktraderCSVData(dataname=datapath)
     cerebro.adddata(data)
 
@@ -105,4 +105,4 @@ if __name__ == '__main__':
     print(f'Final   Portfolio Value: {final_value:.2f}')
     print(f'Final gain (%): {((final_value - initial_cash) / initial_cash) * 100:.2f}%')
 
-    cerebro.plot()
+    #cerebro.plot()

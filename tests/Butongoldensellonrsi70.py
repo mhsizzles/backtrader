@@ -63,12 +63,12 @@ if __name__ == '__main__':
     cerebro.addstrategy(MACrossRSISell, fast=5, slow=20, rsi_period=14, rsi_sell=70)
 
     # --- Broker / Cash / Commission ---
-    initial_cash = 10000
+    initial_cash = 80*12
     cerebro.broker.set_cash(initial_cash)
-    cerebro.broker.setcommission(commission=0.001)  # 0.1% per trade
+    cerebro.broker.setcommission(commission=0.001) # 0.9% per trade
 
-    # --- Custom position sizing: 50% of cash ---
-    cerebro.addsizer(PercentSizer, perc=0.99)
+    # --- Custom position sizing: X% of cash ---
+    cerebro.addsizer(PercentSizer, perc=0.99)  # Invest 99% of cash each trade
 
     print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
     cerebro.run()
@@ -76,4 +76,4 @@ if __name__ == '__main__':
     print('Final   Portfolio Value: %.2f' % final_value)
     print(f'Final gain (%): {((final_value - initial_cash) / initial_cash) * 100:.2f}%')
 
-    cerebro.plot()
+    #cerebro.plot()
