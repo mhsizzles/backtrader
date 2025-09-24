@@ -2,19 +2,32 @@ import backtrader as bt
 import os
 
 
+# ---- Custom Sizer: invest X% of cash each trade ----
+class PercentSizer(bt.Sizer):
+    params = (("perc", 0.5),)  # 50% of cash by default
+
+    def _getsizing(self, comminfo, cash, data, isbuy):
+        if isbuy:
+            # invest % of cash in units of shares
+            target_value = cash * self.p.perc
+            size = int(target_value / data.close[0])  # floor to whole shares
+            return size
+        else:
+            return self.broker.getposition(data).size  # sell all
+
+
 class MACrossRSISell(bt.Strategy):
     params = dict(
         fast=5,              # short MA
         slow=20,             # long  MA
         rsi_period=14,
-        rsi_sell=70,         # sell when RSI >= 70
-        stake=100            # shares/contracts per trade
+        rsi_sell=70          # sell when RSI >= 70
     )
 
     def __init__(self):
         self.sma_fast = bt.ind.SMA(self.data.close, period=self.p.fast)
         self.sma_slow = bt.ind.SMA(self.data.close, period=self.p.slow)
-        self.crossover = bt.ind.CrossOver(self.sma_fast, self.sma_slow)  # +1 on golden cross, -1 on death cross
+        self.crossover = bt.ind.CrossOver(self.sma_fast, self.sma_slow)
         self.rsi = bt.ind.RSI(self.data.close, period=self.p.rsi_period)
 
         self.order = None
@@ -27,12 +40,12 @@ class MACrossRSISell(bt.Strategy):
         if self.order:
             return
 
-        # Entry: BUY on golden cross (5 SMA crosses above 20 SMA)
+        # Entry: Golden cross OR RSI >= 35
         if not self.position:
             if self.crossover[0] > 0 or self.rsi[0] >= 35:
-                self.order = self.buy(size=self.p.stake)
+                self.order = self.buy()
 
-        # Exit: SELL when RSI reaches/exceeds 70
+        # Exit: RSI >= 70
         else:
             if self.rsi[0] >= self.p.rsi_sell:
                 self.order = self.close()
@@ -41,17 +54,26 @@ class MACrossRSISell(bt.Strategy):
 if __name__ == '__main__':
     cerebro = bt.Cerebro()
 
-    # Use your existing sample file (adjust path if needed)
-    datapath = os.path.join(os.path.dirname(__file__), '../datas/orcl-2014.txt')
+    # --- Data ---
+    datapath = os.path.join(os.path.dirname(__file__), '../datas/nvda-1999-2014.txt')
     data = bt.feeds.BacktraderCSVData(dataname=datapath)
     cerebro.adddata(data)
 
-    cerebro.addstrategy(MACrossRSISell, fast=5, slow=20, rsi_period=14, rsi_sell=70, stake=100)
+    # --- Strategy ---
+    cerebro.addstrategy(MACrossRSISell, fast=5, slow=20, rsi_period=14, rsi_sell=70)
 
-    cerebro.broker.set_cash(10000)
-    cerebro.addsizer(bt.sizers.FixedSize, stake=10)  # optional: external sizer; remove if you prefer strategy stake
+    # --- Broker / Cash / Commission ---
+    initial_cash = 1000
+    cerebro.broker.set_cash(initial_cash)
+    cerebro.broker.setcommission(commission=0.001)  # 0.1% per trade
+
+    # --- Custom position sizing: 50% of cash ---
+    cerebro.addsizer(PercentSizer, perc=0.9)
 
     print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
     cerebro.run()
-    print('Final   Portfolio Value: %.2f' % cerebro.broker.getvalue())
+    final_value = cerebro.broker.getvalue()
+    print('Final   Portfolio Value: %.2f' % final_value)
+    print(f'Final gain (%): {((final_value - initial_cash) / initial_cash) * 100:.2f}%')
+
     cerebro.plot()
