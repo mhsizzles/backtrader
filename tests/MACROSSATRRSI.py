@@ -1,6 +1,18 @@
 import backtrader as bt
 import os
 
+# ---- Custom Sizer: invest X% of cash each trade ----
+class PercentSizer(bt.Sizer):
+    params = (("perc", 0.5),)  # 50% of cash by default
+
+    def _getsizing(self, comminfo, cash, data, isbuy):
+        if isbuy:
+            # invest % of cash in units of shares
+            target_value = cash * self.p.perc
+            size = int(target_value / data.close[0])  # floor to whole shares
+            return size
+        else:
+            return self.broker.getposition(data).size  # sell all
 
 class MACrossRSI_ATRFilter(bt.Strategy):
     params = dict(
@@ -84,8 +96,8 @@ if __name__ == '__main__':
     cerebro.broker.set_cash(initial_cash)
     cerebro.broker.setcommission(commission=0.001)  # 0.1% per trade
 
-    # --- Position sizing ---
-    cerebro.addsizer(bt.sizers.FixedSize, stake=100)
+    # --- Custom position sizing: 50% of cash ---
+    cerebro.addsizer(PercentSizer, perc=0.9)
 
     print(f'Starting Portfolio Value: {cerebro.broker.getvalue():.2f}')
     cerebro.run()

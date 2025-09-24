@@ -55,7 +55,7 @@ if __name__ == '__main__':
     cerebro = bt.Cerebro()
 
     # --- Data ---
-    datapath = os.path.join(os.path.dirname(__file__), '../datas/nvda-1999-2014.txt')
+    datapath = os.path.join(os.path.dirname(__file__), '../datas/orcl-2014.txt')
     data = bt.feeds.BacktraderCSVData(dataname=datapath)
     cerebro.adddata(data)
 
@@ -63,12 +63,12 @@ if __name__ == '__main__':
     cerebro.addstrategy(MACrossRSISell, fast=5, slow=20, rsi_period=14, rsi_sell=70)
 
     # --- Broker / Cash / Commission ---
-    initial_cash = 1000
+    initial_cash = 10000
     cerebro.broker.set_cash(initial_cash)
     cerebro.broker.setcommission(commission=0.001)  # 0.1% per trade
 
     # --- Custom position sizing: 50% of cash ---
-    cerebro.addsizer(PercentSizer, perc=0.9)
+    cerebro.addsizer(PercentSizer, perc=0.99)
 
     print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
     cerebro.run()
