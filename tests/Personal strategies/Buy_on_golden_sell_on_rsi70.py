@@ -21,7 +21,8 @@ class MACrossRSISell(bt.Strategy):
         fast=5,              # short MA
         slow=20,             # long  MA
         rsi_period=14,
-        rsi_sell=70          # sell when RSI >= 70
+        rsi_sell=70,
+        #slow2=200,          # sell when RSI >= 70
     )
 
     def __init__(self):
@@ -29,6 +30,7 @@ class MACrossRSISell(bt.Strategy):
         self.sma_slow = bt.ind.SMA(self.data.close, period=self.p.slow)
         self.crossover = bt.ind.CrossOver(self.sma_fast, self.sma_slow)
         self.rsi = bt.ind.RSI(self.data.close, period=self.p.rsi_period)
+        #self.sma_slow2 = bt.ind.SMA(self.data.close, period=self.p.slow2)
 
         self.order = None
 
@@ -42,7 +44,12 @@ class MACrossRSISell(bt.Strategy):
 
         # Entry: Golden cross OR RSI >= 35
         if not self.position:
-            if self.crossover[0] > 0 or self.rsi[0] >= 35:
+            #if(
+            #(self.crossover[0] > 0 and self.rsi[0] <= 45)
+            #or (self.data.close[0] < self.sma_slow2[0])
+            #or (self.rsi[0] <= 35) ):
+            
+            if (self.crossover[0] > 0 and self.rsi[0] <= 45) or self.rsi[0] <= 35:
                 self.order = self.buy()
 
         # Exit: RSI >= 70
@@ -56,7 +63,20 @@ if __name__ == '__main__':
 
     # --- Data ---
     datapath = os.path.join(os.path.dirname(__file__), '../datas/STM.csv')
-    data = bt.feeds.BacktraderCSVData(dataname=datapath)
+    data = bt.feeds.GenericCSVData(
+    dataname='datas/STM.csv',
+    dtformat=('%Y-%m-%d'),
+    datetime=0,
+    open=1,
+    high=2,
+    low=3,
+    close=4,
+    volume=5,
+    openinterest=6,
+    # If you have headers, set this:
+    header=0,
+)
+
     cerebro.adddata(data)
 
     # --- Strategy ---
@@ -68,7 +88,7 @@ if __name__ == '__main__':
     cerebro.broker.setcommission(commission=0.001) # 0.9% per trade
 
     # --- Custom position sizing: X% of cash ---
-    cerebro.addsizer(PercentSizer, perc=0.99)  # Invest 99% of cash each trade
+    cerebro.addsizer(PercentSizer, perc=0.5)  # Invest 99% of cash each trade
 
     print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
     cerebro.run()
@@ -76,4 +96,4 @@ if __name__ == '__main__':
     print('Final   Portfolio Value: %.2f' % final_value)
     print(f'Final gain (%): {((final_value - initial_cash) / initial_cash) * 100:.2f}%')
 
-    #cerebro.plot()
+    cerebro.plot()
