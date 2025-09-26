@@ -63,7 +63,7 @@ if __name__ == '__main__':
     cerebro.addstrategy(MACrossRSISell, fast=5, slow=20, rsi_period=14, rsi_sell=70)
 
     # --- Broker / Cash / Commission ---
-    initial_cash = 80*12
+    initial_cash = 10000.0
     cerebro.broker.set_cash(initial_cash)
     cerebro.broker.setcommission(commission=0.001) # 0.9% per trade
 
