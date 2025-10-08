@@ -1,0 +1,16 @@
+- Openning Range Breakout : These are the parameters you used:
+
+Open Range (min): 5 → The strategy looks at the first 5 minutes of each trading day to define the “range” (high/low).
+
+Risk (%): 0.7 → Each trade risks 0.7% of your available capital.
+
+TP Multiple: 10 → Target profit is 10× the initial risk size.
+
+Max Leverage: 1 → No leverage beyond your own capital.
+
+Initial Cash: 250 → You started with $250.
+
+Slippage: 0 → No artificial execution delay or extra cost.
+
+- mean reversion 
+-

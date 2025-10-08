@@ -1,0 +1,74 @@
+📊 Core Trading Concepts
+
+Trend
+
+General direction of the market (uptrend, downtrend, sideways).
+
+“The trend is your friend.”
+
+Volatility
+
+How much the price fluctuates.
+
+High volatility = big swings, risk + opportunity.
+
+Low volatility = calmer, more stable moves.
+
+Risk Management
+
+Controlling losses so you don’t blow up your account.
+
+Includes stop-loss, position sizing, risk/reward ratio.
+
+Leverage
+
+Borrowing money from your broker to trade bigger.
+
+Amplifies both profits and losses.
+
+Spread
+
+Difference between bid price (buyers) and ask price (sellers).
+
+Narrow spread = liquid market. Wide spread = illiquid.
+
+Slippage
+
+When your order executes at a worse price than expected, often in fast-moving or illiquid markets.
+
+Order Types
+
+Market order → executes immediately at best available price.
+
+Limit order → executes only at your chosen price (or better).
+
+Stop order → triggers once price crosses a certain level (used for stop-losses).
+
+Breakout / Breakdown
+
+Breakout = price moves above resistance.
+
+Breakdown = price falls below support.
+
+Pullback / Retracement
+
+A temporary move against the trend, before the trend continues.
+
+Example: in an uptrend, small dips = pullbacks.
+
+Reversal
+
+When a trend actually changes direction (uptrend → downtrend, or vice versa).
+
+Liquidity Pools
+
+Areas on the chart where lots of stop-losses and orders accumulate (usually near support & resistance).
+
+Risk/Reward Ratio (R:R)
+
+How much you risk vs how much you aim to gain.
+
+Example: risk $100 for potential $300 → R:R = 1:3 (good).
+
+✅ Summary in one line:
+Trading revolves around price movement (trend, volatility, structure), market conditions (volume, liquidity, spread), and risk control (stop-loss, leverage, risk/reward).

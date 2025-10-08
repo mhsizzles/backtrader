@@ -1,0 +1,26 @@
+- ATR VOLATILITY index
+- VIX index
+- Bollinger Bands
+- Keltner Channels
+- Donchian Channels
+- Parabolic SAR
+- Moving Average Envelopes
+- Chaikin Volatility
+- Price Rate of Change (ROC)
+- Historical Volatility
+- Volatility Stop
+- Ulcer Index 
+- Volatility Index (VIX)
+- Average True Range (ATR)
+- Volatility Weighted Moving Average (VWMA)
+- Garman-Klass Volatility 
+- Parkinson Volatility
+- Rogers-Satchel Volatility
+- Yang-Zhang Volatility
+- Stochastic Volatility
+- Implied Volatility
+- Volatility Skew
+- Volatility Smile  
+- Volatility Clustering
+- Volatility Breakout
+- Volatility Contraction

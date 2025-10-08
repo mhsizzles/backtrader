@@ -1,0 +1,3 @@
+- 5SMA>50LMA
+- Price>200LMA
+- RSI<30
